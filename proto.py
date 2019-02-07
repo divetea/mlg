@@ -1,6 +1,6 @@
 #! /usr/bin/python3
+"""This is a script to demo and plot MLG."""
 
-import numpy as np
 import matplotlib.pyplot as plt
 from codeword_generator import RandGenerator
 

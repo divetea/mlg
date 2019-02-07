@@ -3,6 +3,7 @@
 
 import matplotlib.pyplot as plt
 from codeword_generator import RandGenerator
+from bch_code import BCH_Code
 
 
 sigmas = [.5, .6, .9]
@@ -12,7 +13,14 @@ for sigma in sigmas:
     b_m = gen.get_val()
     count, bins, ignored = plt.hist(b_m, 60, density=True)
 
-plt.show()
+
+# x37, 32, 25
+bch = BCH_Code(8, 13)
+print(bch.h)
+print(bch.indexes_k)
+print(bch.indexes_n)
+
+# plt.show()
 
 # klassische Dekodierung hard, soft
 # hard/soft MLG

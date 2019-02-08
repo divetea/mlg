@@ -5,6 +5,14 @@ import numpy as np
 from functools import partial
 
 
+def expon_to_int(exponents):
+    """Take a list of exponents and make it into an integer."""
+    result = 0
+    for exp in exponents:
+        result += 2 ** exp
+    return result
+
+
 class BCH_Code(object):
     """This is a representation of a BCH-code."""
 
@@ -88,17 +96,15 @@ class BCH_Code(object):
 
     def _generate_indexes_k(self, n, h):
         bin_h = bin(h)[2:]
-        print(bin_h)
         first = []
         for i in range(len(bin_h)):
             if int(bin_h[i]):
                 first.append(i)
-        print(first)
         result = []
         for x in range(n):
             add_mod_x = partial(self._add_mod, x=x)
             result.append(sorted(map(add_mod_x, first)))
-        return result
+        return np.array(result, dtype=np.int16)
 
     def _add_mod(self, elem, x):
         return (elem + x) % self.n
@@ -112,4 +118,4 @@ class BCH_Code(object):
                 if i in index_k:
                     result[i].append(j)
 
-        return result
+        return np.array(result, dtype=np.int16)

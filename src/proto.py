@@ -2,14 +2,14 @@
 """This is a script to demo and plot MLG."""
 
 import matplotlib.pyplot as plt
-from codeword_generator import RandGenerator
+from noisy_word_generator import RandGenerator
 from bch_code import (BCH_Code, expon_to_int)
 
 
 sigmas = [.5, .6, .9]
 
 for sigma in sigmas:
-    gen = RandGenerator(sigma, 1000000, mu=1)
+    gen = RandGenerator(sigma, 63, mu=1)
     b_m = gen.get_val()
     count, bins, ignored = plt.hist(b_m, 60, density=True)
 # plt.show()

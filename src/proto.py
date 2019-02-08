@@ -16,13 +16,10 @@ for sigma in sigmas:
 
 h = expon_to_int([37, 32, 25, 22, 21, 8, 2, 1])
 bch = BCH_Code(63, h)
-# bch = BCH_Code(8, 13)
 
-# print(bch.h)
-# print(bch.indexes_k)
-# print(bch.indexes_n)
-
-
+print(bch.h)
+print(bch.indexes_k)
+print(bch.indexes_n)
 
 # klassische Dekodierung hard, soft
 # hard/soft MLG

@@ -26,7 +26,7 @@ print(bch.h)
 print(bch.indexes_k)
 print(bch.indexes_n)
 print(mlg_hard.syndrome(word, bch))
-print(mlg_hard._init_r([0, 1, 1], 3))
+print(mlg_hard._init_r(np.array([0, 1, 1]), 3))
 
 # klassische Dekodierung hard, soft
 # hard/soft MLG

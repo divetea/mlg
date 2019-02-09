@@ -9,7 +9,8 @@ from src.mlg_hard import (
     decide_hard,
     decode_modulated,
     decode_hard,
-    syndrome)
+    syndrome,
+    _init_r)
 from src.bch_code import BCHCode
 
 
@@ -35,6 +36,12 @@ class TestDecodeHard(unittest.TestCase):
     def setUp(self):
         """Set up example code for all test cases."""
         self.code = BCHCode(15, '0b11010001')
+
+    def test_init_r(self):
+        """Test private method _init_r."""
+        word = np.array([0, 1, 0])
+        result = _init_r(word, 3)
+        np.testing.assert_array_equal(result, np.array([3, -3, 3]))
 
     def test_zero_codeword(self):
         """Test correct decoding of a zero codeword."""

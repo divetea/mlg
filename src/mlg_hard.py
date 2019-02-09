@@ -39,12 +39,5 @@ def syndrome(word, code):
 
 
 def _init_r(word, gamma):
-    result = []
-    for val in word:
-        if val == 0:
-            result.append(gamma)
-        elif val == 1:
-            result.append(-gamma)
-        else:
-            raise ValueError("Hard decided word should only contain 0/1!")
+    result = np.where(word == 0, gamma, -gamma)
     return result

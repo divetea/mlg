@@ -121,7 +121,6 @@ class BCHCode(object):
         """Setter for roh."""
         self._roh = value
 
-
     # @property
     # def generator_pol(self):
     #     """Getter for generator_pol."""

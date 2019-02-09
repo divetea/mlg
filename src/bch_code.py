@@ -23,8 +23,8 @@ class BCHCode(object):
         self._h = h
         self._indexes_k = self._generate_indexes_k(self.n, self.h)
         self._indexes_n = self._generate_indexes_n(self.n, self.h)
-        self._roh = len(self.indexes_k)
-        self._gamma = len(self.indexes_n)
+        self._gamma = self.indexes_k.shape[1]
+        self._roh = self.indexes_n.shape[1]
 
     def _generate_indexes_k(self, n, h):
         bin_h = bin(h)[2:]

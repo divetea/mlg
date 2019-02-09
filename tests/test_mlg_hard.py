@@ -5,16 +5,16 @@ import unittest
 
 import numpy as np
 
+from src.bch_code import BCHCode
+from src.noisy_word_generator import RandGenerator
 from src.mlg_hard import (
     decide_hard,
     decode_modulated,
     decode_hard,
     syndrome,
     _init_r)
-from src.bch_code import BCHCode
 
 
-@unittest.skip("not implemented")
 class TestDecodeModulated(unittest.TestCase):
     """Test case for decode_modulated."""
 
@@ -24,10 +24,24 @@ class TestDecodeModulated(unittest.TestCase):
 
     def test_ones_codeword(self):
         """Test correct decoding of a ones codeword (zeroes modulated)."""
-        codeword = np.ones(shape=self.code.n)
-        result = decode_modulated(codeword)
-        np.testing.assert_equal(result, codeword)
-        # self.assertEqual(codeword.tolist(), [0 for _ in range(self.code.n)])
+        codeword = np.ones(self.code.n)
+        result = decode_modulated(codeword, self.code)
+        np.testing.assert_equal(result, np.zeros(self.code.n))
+
+    def test_correct_decode(self):
+        """Test correct decoding of a random codeword."""
+        gen = RandGenerator(0.8, 15, mu=1)
+        codeword = gen.get_val()
+        result = decode_modulated(codeword, self.code)
+        np.testing.assert_equal(result, np.zeros(self.code.n))
+
+    def test_wrong_decode(self):
+        """Test wrong correction of a random codeword."""
+        gen = RandGenerator(0.4, 15, mu=0)
+        codeword = gen.get_val()
+        result = decode_modulated(codeword, self.code)
+        np.testing.assert_equal(
+            result, np.array([0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0]))
 
 
 class TestDecodeHard(unittest.TestCase):
@@ -46,16 +60,15 @@ class TestDecodeHard(unittest.TestCase):
     def test_zero_codeword(self):
         """Test correct decoding of a zero codeword."""
         codeword = np.zeros(shape=self.code.n)
-        result = decode_hard(codeword, self.code)
+        result = decode_hard(codeword, self.code, end=10)
         np.testing.assert_array_equal(result, codeword)
         # self.assertEqual(codeword.tolist(), [0 for _ in range(self.code.n)])
 
-    @unittest.skip("not implemented")
     def test_small_error_word(self):
         """Test correction of a single error."""
         word = np.array(
-            [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
-        result = decode_hard(word, self.code)
+            [0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+        result = decode_hard(word, self.code, end=10)
         np.testing.assert_array_equal(result, np.zeros(self.code.n))
 
 

@@ -17,12 +17,6 @@ class TestExponToInt(unittest.TestCase):
 class TestBCHCode(unittest.TestCase):
     """Test case for the BCHCode object."""
 
-    def test_zero(self):
-        """Test BCHCode(0, 0)."""
-        bch = BCHCode(0, 0)
-        self.assertEqual(bch.indexes_k.tolist(), [])
-        self.assertEqual(bch.indexes_n.tolist(), [])
-
     def test_small1(self):
         """Test BCHCode(3, 2)."""
         bch = BCHCode(3, 2)

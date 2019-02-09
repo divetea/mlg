@@ -12,11 +12,39 @@ def decide_hard(b_m):
     return np.array(result)
 
 
-def decode_modulated(b_m):
+def decode_modulated(b_m, code):
     """Decode a noisy word and return the corrected codeword or None."""
     pass
 
 
-def decode_hard(b_h):
+def decode_hard(b_h, code, end=5):
     """Decode a hard decided word and return the corrected codeword or None."""
-    pass
+    tau = 0
+    syn = syndrome(b_h, code)
+    r = _init_r(b_h, code.gamma)
+    while(any(syn) or tau == end):
+        l_ex = 0
+        syn = syndrome(b_h, code)
+        end += 1
+    return b_h
+
+
+def syndrome(word, code):
+    """Calculate the syndrome for a given word."""
+    result = np.empty_like(word)
+    for i in range(code.n):
+        val = np.mod(np.sum(word[code.indexes_k[i]]), 2)
+        result[i] = val
+    return np.array(result)
+
+
+def _init_r(word, gamma):
+    result = []
+    for val in word:
+        if val == 0:
+            result.append(gamma)
+        elif val == 1:
+            result.append(-gamma)
+        else:
+            raise ValueError("Hard decided word should only contain 0/1!")
+    return result

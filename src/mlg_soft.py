@@ -1,38 +1,53 @@
 #! /usr/bin/python3
 """This is an implementation of soft reliability based MLG decoding."""
 
+import math
+
 import numpy as np
 import copy
 
 
-def decode_modulated(word, code, x_bit, end=1000):
+def decide_hard(b_m):
+    """Decide each value in b_m to be either 1 or 0."""
+    result = []
+    for val in b_m:
+        result.append(val < 0)
+    return np.array(result, dtype=np.int8)
+
+
+def decode_modulated(word, code, x_bit=0, end=1000):
     """Decode a noisy word and return the corrected codeword or None."""
-    b_m = copy.deepcopy(word)
+    if not x_bit:
+        x_bit = int(math.floor(math.log(code.gamma + 1, 2) + 1))
+    max = 2 ** (x_bit - 1) - 1
     tau = 0
-    syn = syndrome(b_m, code)
-    # print("s_{}: {}".format(tau, syn))
-    b_q = quantize(word, x_bit)
-    r = b_q
-    # print("r_{}: {}".format(tau, r))
-    # print("b_{}: {}".format(tau, b_h))
+    b_m = copy.deepcopy(word)
+    # print("b_m({}): {}".format(tau, b_m))
+    b_h = decide_hard(b_m)
+    syn = syndrome(b_h, code)
+    # print("s({}): {}".format(tau, syn))
+    r = quantize(b_m, x_bit)
+    # print("r({}): {}".format(tau, r))
+    # print("b_h({}): {}".format(tau, b_h))
+
     while(any(syn) and tau <= end):
         e = np.zeros(code.n)
         for j in range(code.n):
             e[j] = np.sum(
                 np.logical_xor(syn[code.indexes_n[j]], b_h[j]) * 2 - 1)
-        # print("e_{}: {}\n\n".format(tau, e))
+        # print("e({}): {}\n\n".format(tau, e))
         tau += 1
         r = np.max(
-            np.column_stack((r - e, np.ones(code.n) * (-code.gamma))),
+            np.column_stack((r - e, np.ones(code.n) * (-max))),
             axis=1)
         r = np.min(
-            np.column_stack((r, np.ones(code.n) * (code.gamma))),
+            np.column_stack((r, np.ones(code.n) * (max))),
             axis=1)
         b_h = np.where(r >= 0, 0, 1)
-        # print("r_{}: {}".format(tau, r))
-        # print("b_{}: {}".format(tau, b_h))
+        # print("r({}): {}".format(tau, r))
+        # print("b_h({}): {}".format(tau, b_h))
         syn = syndrome(b_h, code)
-        # print("s_{}: {}".format(tau, syn))
+        # print("s({}): {}".format(tau, syn))
 
     if any(syn):
         return None
@@ -52,9 +67,9 @@ def quantize(word, x):
     """Quantize all values in word with a precision of x bits."""
     max = 2 ** (x - 1) - 1
     rounded = np.around(word * max)
-    print(rounded)
+    # print(rounded)
     result = np.where(rounded > max, max, rounded)
-    print(result)
+    # print(result)
     result = np.where(result < -max, -max, result)
-    print(result)
+    # print(result)
     return result

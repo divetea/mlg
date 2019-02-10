@@ -1,6 +1,7 @@
 #! /usr/bin/python3
-"""Test module for mlg_hard.py."""
+"""Test module for mlg_soft.py."""
 
+import math
 import unittest
 
 import numpy as np
@@ -13,7 +14,7 @@ from src.mlg_soft import (
     quantize)
 
 
-@unittest.skip("not implemented")
+# @unittest.skip("not implemented")
 class TestDecodeModulated(unittest.TestCase):
     """Test case for decode_modulated."""
 

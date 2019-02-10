@@ -15,7 +15,7 @@ def decide_hard(b_m):
     return np.array(result, dtype=np.int8)
 
 
-def decode_modulated(word, code, x_bit=0, end=1000):
+def decode_modulated(word, code, end=1000, x_bit=0):
     """Decode a noisy word and return the corrected codeword or None."""
     if not x_bit:
         x_bit = int(math.floor(math.log(code.gamma + 1, 2) + 1))

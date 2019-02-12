@@ -24,7 +24,7 @@ def decode_modulated(word, code, end=1000, x_bit=0):
     # print("r({}): {}".format(tau, r))
     # print("b_h({}): {}".format(tau, b_h))
 
-    while(any(syn) and tau <= end):
+    while(any(syn) and tau < end):
         e = np.zeros(code.n)
         for j in range(code.n):
             e[j] = np.sum(
@@ -45,7 +45,7 @@ def decode_modulated(word, code, end=1000, x_bit=0):
 
     if any(syn):
         return None
-    return b_h
+    return (b_h, tau)
 
 
 def quantize(word, x):

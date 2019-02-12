@@ -14,17 +14,21 @@ import mlg_hard
 import mlg_soft
 
 sigmas = [.5, .6, .9, 1.3]
-sigmas = [.6]
+sigmas = [.8]
 # ends = [1, 2, 3, 4, 5, 6, 10, 20, 30, 40]
 end = 20
 x_bit = 0
-num_sim = 1000
-h = expon_to_int([37, 32, 25, 22, 21, 8, 2, 1])
+num_sim = 100
+# h = expon_to_int(
+#     [201, 196, 186, 167, 166, 159, 128, 126, 115, 112, 103, 67, 50, 46, 24,
+#      18, 0])  # 273
+h = expon_to_int([37, 32, 25, 22, 21, 8, 2, 0])
 # h = '0b11010001'
+# bch = BCHCode(273, h)
 bch = BCHCode(63, h)
-f_e = 4
+f_k = 4
 max_x_bit = int(math.floor(math.log(bch.gamma + 1, 2) + 1))
-print(max_x_bit)
+print("soft quantization to {} bit.".format(max_x_bit))
 
 # for sigma in sigmas:
 #     gen = RandGenerator(sigma, bch.n, mu=1)
@@ -51,7 +55,7 @@ for sigma in sigmas:
         elif np.array_equal(decoded, np.zeros(bch.n)):
             result = "correct"
             results[sigma]["correct"] += 1
-            if (num_err > f_e):
+            if (num_err > f_k):
                 # print("b_m: {}\ncorrectly decoded eventhough error was {}"
                 #       "".format(b_m, num_err))
                 num_special_err += 1
@@ -89,7 +93,7 @@ for sigma in sigmas:
         elif np.array_equal(decoded, np.zeros(bch.n)):
             result = "correct"
             results[sigma]["correct"] += 1
-            if (num_err > f_e):
+            if (num_err > f_k):
                 # print("b_m: {}\ncorrectly decoded eventhough error was {}"
                 #       "".format(b_m, num_err))
                 num_special_err += 1
@@ -108,8 +112,10 @@ with open('soft.csv', 'w', newline='') as csvfile:
     for row in rows:
         result_writer.writerow(row)
 # word = np.array([1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0])
-# word_modulated = np.array([-1, -1, -1, 1, -1, 1, -1, -1, -1, 1, 1, 1, 1, 1, 1])
+# word_modulated = np.array(
+#     [-1, -1, -1, 1, -1, 1, -1, -1, -1, 1, 1, 1, 1, 1, 1])
 # mlg_hard.decode_hard(word, bch)
 # mlg_soft.decode_modulated(word_modulated, bch)
 
-# soft MLG
+# graphs:
+# WER / Eb/N0 : need 

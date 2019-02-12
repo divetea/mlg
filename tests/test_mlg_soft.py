@@ -1,14 +1,13 @@
 #! /usr/bin/python3
 """Test module for mlg_soft.py."""
 
-import math
 import unittest
 
 import numpy as np
 
-from src.bch_code import BCHCode
-from src.noisy_word_generator import RandGenerator
-from src.mlg_soft import (
+from mlg.bch_code import BCHCode
+from mlg.noisy_word_generator import RandGenerator
+from mlg.mlg_soft import (
     decode_modulated,
     syndrome,
     quantize)

@@ -4,7 +4,7 @@
 Using pytest to see how much simpler it is.
 """
 
-from src.noisy_word_generator import RandGenerator
+from mlg.noisy_word_generator import RandGenerator
 import numpy as np
 
 

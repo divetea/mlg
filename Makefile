@@ -6,3 +6,6 @@ clean:
 
 test:
 	pytest
+
+install:
+	pip install --user .

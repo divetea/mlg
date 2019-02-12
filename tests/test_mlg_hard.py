@@ -5,9 +5,9 @@ import unittest
 
 import numpy as np
 
-from src.bch_code import BCHCode
-from src.noisy_word_generator import RandGenerator
-from src.mlg_hard import (
+from mlg.bch_code import BCHCode
+from mlg.noisy_word_generator import RandGenerator
+from mlg.mlg_hard import (
     decide_hard,
     decode_modulated,
     decode_hard,

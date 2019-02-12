@@ -2,7 +2,7 @@
 """Test module for bch_code.py."""
 
 import unittest
-from src.bch_code import (BCHCode, expon_to_int)
+from mlg.bch_code import (BCHCode, expon_to_int)
 
 
 class TestExponToInt(unittest.TestCase):

@@ -35,11 +35,19 @@ bch = BCHCode(63, h, 37)
 # h = '0b11010001'
 # bch = BCHCode(15, h, 7)
 
-noises = np.linspace(1, 6, num=21)
-# noises = np.linspace(1, 5, num=5)
-print("simulating for following noise levels:", noises)
+# n l f_k h(x) num_sim max_iter num_err noise[dB] sigma result needed_iter
+filename_raw = "({},{},{})_wer_{}_raw.csv".format(
+    bch.n, bch.info_bits, int(bch.f_k), algo)
 
+# max_iter, noise, sigma, num_sim, DV, correct, wrong, WER,
+# corrected_big_errors
+filename_cumm = "({},{},{})_wer_{}_cummu.csv".format(
+    bch.n, bch.info_bits, int(bch.f_k), algo)
+
+noises = np.linspace(1, 6, num=21)
+print("simulating for following noise levels:", noises)
 sigmas = list(map(partial(noise_to_sigma, r=bch.rate), noises))
+
 max_iterations = [3, 4, 5, 8, 10, 15, 20, 100]
 # max_iterations = [10]
 num_sim = 2000
@@ -51,7 +59,7 @@ for max_iter in max_iterations:
     print("_"*70)
     print("max iterations: ", max_iter)
     results = OrderedDict()
-    for sigma in sigmas:
+    for sigma_counter, sigma in enumerate(sigmas):
         rows = []
         print("-"*30)
         print("Sigma: ", sigma)
@@ -79,7 +87,7 @@ for max_iter in max_iterations:
                     results[sigma]["wrong"] += 1
             rows.append(
                 [bch.n, bch.info_bits, bch.f_k, bch.h, num_sim, max_iter,
-                 num_err, sigma, result, needed_iter])
+                 num_err, noises[sigma_counter], sigma, result, needed_iter])
 
         results[sigma]["WER"] = 1 - results[sigma]["correct"] / float(num_sim)
         results[sigma]["correct_big_errors"] = num_special_err
@@ -87,22 +95,19 @@ for max_iter in max_iterations:
         # DV, correct, wrong, WER, correct_big_errors
         cummulated_row = [v for k, v in results[sigma].items()]
         cummulated_row.insert(0, max_iter)
-        cummulated_row.insert(1, sigma)
-        cummulated_row.insert(2, num_sim)
-        # max_iter, sigma, num_sim, DV, correct, wrong, WER, correct_big_errors
+        cummulated_row.insert(1, noises[sigma_counter])
+        cummulated_row.insert(2, sigma)
+        cummulated_row.insert(3, num_sim)
+        # max_iter, noise, sigma, num_sim, DV, correct, wrong, WER,
+        # correct_big_errors
         cummulated_by_sigma.append(cummulated_row)
 
-        filename_raw = "({},{},{})_wer_{}_raw.csv".format(
-            bch.n, bch.info_bits, int(bch.f_k), algo)
         with open(filename_raw, 'a', newline='') as csvfile:
             result_writer = csv.writer(
                 csvfile, delimiter=' ', quotechar='|',
                 quoting=csv.QUOTE_MINIMAL)
             for row in rows:
                 result_writer.writerow(row)
-
-    filename_cumm = "({},{},{})_wer_{}_cummu.csv".format(
-        bch.n, bch.info_bits, int(bch.f_k), algo)
     with open(filename_cumm, 'a', newline='') as csvfile:
         result_writer = csv.writer(csvfile, delimiter=' ',
                                    quotechar='|', quoting=csv.QUOTE_MINIMAL)

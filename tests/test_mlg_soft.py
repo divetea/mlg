@@ -19,7 +19,7 @@ class TestDecodeModulated(unittest.TestCase):
 
     def setUp(self):
         """Set up example code for all test cases."""
-        self.code = BCHCode(15, '0b11010001')
+        self.code = BCHCode(15, '0b11010001', 7)
 
     def test_ones_codeword(self):
         """Test correct decoding of a ones codeword (zeroes modulated)."""
@@ -48,7 +48,7 @@ class TestSyndrome(unittest.TestCase):
 
     def setUp(self):
         """Set up example code for all test cases."""
-        self.code = BCHCode(15, '0b11010001')
+        self.code = BCHCode(15, '0b11010001', 7)
 
     def test_zeros_word(self):
         """Test syndrome calculation for word with all zeros."""
@@ -70,7 +70,7 @@ class TestQuantize(unittest.TestCase):
 
     def setUp(self):
         """Set up example code for all test cases."""
-        self.code = BCHCode(15, '0b11010001')
+        self.code = BCHCode(15, '0b11010001', 7)
 
     def test_zeros_word(self):
         """Test syndrome calculation for word with all zeros."""

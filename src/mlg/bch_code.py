@@ -16,15 +16,18 @@ def expon_to_int(exponents):
 class BCHCode(object):
     """This is a representation of a BCH-code."""
 
-    def __init__(self, n, h):
+    def __init__(self, n, h, info_bits):
         """Initializer."""
         self._n = n
+        self._info_bits = info_bits
         # self._generator_pol = generator_pol
         self._h = h
         self._indexes_k = self._generate_indexes_k(self.n, self.h)
         self._indexes_n = self._generate_indexes_n(self.n, self.h)
         self._gamma = self.indexes_n.shape[1]
         self._roh = self.indexes_k.shape[1]
+        self._f_k = self._weight(self.h) / 2
+        self._rate = float(self.info_bits) / float(self.n)
 
     def _generate_indexes_k(self, n, h):
         bin_h = bin(h)[2:]
@@ -52,6 +55,9 @@ class BCHCode(object):
 
         return np.array(result, dtype=np.int16)
 
+    def _weight(self, polynom):
+        return bin(polynom).count('1')
+
     @property
     def n(self):
         """Getter for n."""
@@ -63,6 +69,16 @@ class BCHCode(object):
         """Setter for n."""
         # print("Setting value n")
         self._n = value
+
+    @property
+    def info_bits(self):
+        """Getter for info_bits."""
+        return self._info_bits
+
+    @info_bits.setter
+    def info_bits(self, value):
+        """Setter for info_bits."""
+        self._info_bits = value
 
     @property
     def h(self):
@@ -120,6 +136,16 @@ class BCHCode(object):
     def roh(self, value):
         """Setter for roh."""
         self._roh = value
+
+    @property
+    def f_k(self):
+        """Getter for f_k."""
+        return self._n
+
+    @f_k.setter
+    def f_k(self, value):
+        """Setter for n."""
+        self._f_k = value
 
     # @property
     # def generator_pol(self):

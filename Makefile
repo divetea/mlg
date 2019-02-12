@@ -3,6 +3,8 @@ clean:
 	rm -rf ./*/*.pyc
 	rm -rf *.csv
 	rm -rf ./*/*.csv
+	rm -rf *.log
+	rm -rf ./*/*.log
 
 test:
 	pytest
@@ -11,7 +13,7 @@ install:
 	pip install --user .
 
 sim_wer_hard:
-	python3 src/mlg/sim_wer.py HARD
+	python3 -u src/mlg/sim_wer.py HARD | tee hard_sim_wer.log
 
 sim_wer_soft:
-	python3 src/mlg/sim_wer.py
+	python3 -u src/mlg/sim_wer.py | tee soft_sim_wer.log

@@ -29,6 +29,14 @@ class BCHCode(object):
         self._f_k = self._weight(self.h) / 2
         self._rate = float(self.info_bits) / float(self.n)
 
+    def syndrome(self, word):
+        """Calculate the syndrome for a given word."""
+        result = np.empty_like(word)
+        for i in range(self.n):
+            val = np.mod(np.sum(word[self.indexes_k[i]]), 2)
+            result[i] = val
+        return np.array(result)
+
     def _generate_indexes_k(self, n, h):
         bin_h = bin(h)[2:]
         first = []
@@ -140,12 +148,22 @@ class BCHCode(object):
     @property
     def f_k(self):
         """Getter for f_k."""
-        return self._n
+        return self._f_k
 
     @f_k.setter
     def f_k(self, value):
-        """Setter for n."""
+        """Setter for f_k."""
         self._f_k = value
+
+    @property
+    def rate(self):
+        """Getter for rate."""
+        return self._rate
+
+    @rate.setter
+    def rate(self, value):
+        """Setter for rate."""
+        self._rate = value
 
     # @property
     # def generator_pol(self):

@@ -2,6 +2,9 @@
 """Test module for bch_code.py."""
 
 import unittest
+
+import numpy as np
+
 from mlg.bch_code import (BCHCode, expon_to_int)
 
 
@@ -42,6 +45,28 @@ class TestBCHCode(unittest.TestCase):
         self.assertEqual(
             bch.indexes_n.tolist(),
             [[0, 3], [0, 1], [1, 2], [2, 3]])
+
+
+class TestSyndrome(unittest.TestCase):
+    """Test case for syndrome."""
+
+    def setUp(self):
+        """Set up example code for all test cases."""
+        self.code = BCHCode(15, '0b11010001', 7)
+
+    def test_zeros_word(self):
+        """Test syndrome calculation for word with all zeros."""
+        word = np.zeros(self.code.n)
+        result = self.code.syndrome(word)
+        np.testing.assert_array_equal(result, word)
+
+    def test_single_error(self):
+        """Test syndrome calculation for a word with a single error."""
+        word = np.zeros(self.code.n)
+        word[2] = 1
+        result = self.code.syndrome(word)
+        np.testing.assert_array_equal(
+            result, np.array([0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1]))
 
 
 if __name__ == '__main__':

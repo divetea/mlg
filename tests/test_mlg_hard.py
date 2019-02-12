@@ -11,7 +11,6 @@ from mlg.mlg_hard import (
     decide_hard,
     decode_modulated,
     decode_hard,
-    syndrome,
     _init_r)
 
 
@@ -82,23 +81,5 @@ class TestDecideHard(unittest.TestCase):
         np.testing.assert_array_equal(decided, np.zeros(5))
 
 
-class TestSyndrome(unittest.TestCase):
-    """Test case for syndrome."""
-
-    def setUp(self):
-        """Set up example code for all test cases."""
-        self.code = BCHCode(15, '0b11010001', 7)
-
-    def test_zeros_word(self):
-        """Test syndrome calculation for word with all zeros."""
-        word = np.zeros(self.code.n)
-        result = syndrome(word, self.code)
-        np.testing.assert_array_equal(result, word)
-
-    def test_single_error(self):
-        """Test syndrome calculation for a word with a single error."""
-        word = np.zeros(self.code.n)
-        word[2] = 1
-        result = syndrome(word, self.code)
-        np.testing.assert_array_equal(
-            result, np.array([0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1]))
+if __name__ == '__main__':
+    unittest.main()

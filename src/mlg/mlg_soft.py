@@ -6,13 +6,7 @@ import math
 import numpy as np
 import copy
 
-
-def decide_hard(b_m):
-    """Decide each value in b_m to be either 1 or 0."""
-    result = []
-    for val in b_m:
-        result.append(val < 0)
-    return np.array(result, dtype=np.int8)
+from mlg.mlg_hard import decide_hard
 
 
 def decode_modulated(word, code, end=1000, x_bit=0):
@@ -24,7 +18,7 @@ def decode_modulated(word, code, end=1000, x_bit=0):
     b_m = copy.deepcopy(word)
     # print("b_m({}): {}".format(tau, b_m))
     b_h = decide_hard(b_m)
-    syn = syndrome(b_h, code)
+    syn = code.syndrome(b_h)
     # print("s({}): {}".format(tau, syn))
     r = quantize(b_m, x_bit)
     # print("r({}): {}".format(tau, r))
@@ -46,21 +40,12 @@ def decode_modulated(word, code, end=1000, x_bit=0):
         b_h = np.where(r >= 0, 0, 1)
         # print("r({}): {}".format(tau, r))
         # print("b_h({}): {}".format(tau, b_h))
-        syn = syndrome(b_h, code)
+        syn = code.syndrome(b_h)
         # print("s({}): {}".format(tau, syn))
 
     if any(syn):
         return None
     return b_h
-
-
-def syndrome(word, code):
-    """Calculate the syndrome for a given word."""
-    result = np.empty_like(word)
-    for i in range(code.n):
-        val = np.mod(np.sum(word[code.indexes_k[i]]), 2)
-        result[i] = val
-    return np.array(result)
 
 
 def quantize(word, x):

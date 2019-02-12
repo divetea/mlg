@@ -22,7 +22,7 @@ def decode_hard(word, code, end):
     """Decode a hard decided word and return the corrected codeword or None."""
     b_h = copy.deepcopy(word)
     tau = 0
-    syn = syndrome(b_h, code)
+    syn = code.syndrome(b_h)
     # print("s_{}: {}".format(tau, syn))
     r = _init_r(b_h, code.gamma)
     # print("r_{}: {}".format(tau, r))
@@ -43,21 +43,12 @@ def decode_hard(word, code, end):
         b_h = np.where(r >= 0, 0, 1)
         # print("r_{}: {}".format(tau, r))
         # print("b_{}: {}".format(tau, b_h))
-        syn = syndrome(b_h, code)
+        syn = code.syndrome(b_h)
         # print("s_{}: {}".format(tau, syn))
 
     if any(syn):
         return None
     return b_h
-
-
-def syndrome(word, code):
-    """Calculate the syndrome for a given word."""
-    result = np.empty_like(word)
-    for i in range(code.n):
-        val = np.mod(np.sum(word[code.indexes_k[i]]), 2)
-        result[i] = val
-    return np.array(result)
 
 
 def _init_r(word, gamma):

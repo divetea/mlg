@@ -9,7 +9,6 @@ from mlg.bch_code import BCHCode
 from mlg.noisy_word_generator import RandGenerator
 from mlg.mlg_soft import (
     decode_modulated,
-    syndrome,
     quantize)
 
 
@@ -43,28 +42,6 @@ class TestDecodeModulated(unittest.TestCase):
             result, np.array([0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0]))
 
 
-class TestSyndrome(unittest.TestCase):
-    """Test case for syndrome."""
-
-    def setUp(self):
-        """Set up example code for all test cases."""
-        self.code = BCHCode(15, '0b11010001', 7)
-
-    def test_zeros_word(self):
-        """Test syndrome calculation for word with all zeros."""
-        word = np.zeros(self.code.n)
-        result = syndrome(word, self.code)
-        np.testing.assert_array_equal(result, word)
-
-    def test_single_error(self):
-        """Test syndrome calculation for a word with a single error."""
-        word = np.zeros(self.code.n)
-        word[2] = 1
-        result = syndrome(word, self.code)
-        np.testing.assert_array_equal(
-            result, np.array([0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1]))
-
-
 class TestQuantize(unittest.TestCase):
     """Test case for quantize."""
 
@@ -85,3 +62,7 @@ class TestQuantize(unittest.TestCase):
         np.testing.assert_array_equal(
             result,
             np.array([-1, 3, -3, -3, 0]))
+
+
+if __name__ == '__main__':
+    unittest.main()

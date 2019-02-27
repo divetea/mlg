@@ -17,3 +17,6 @@ sim_wer_hard:
 
 sim_wer_soft:
 	python3 -u src/mlg/sim_wer.py | tee soft_sim_wer.log
+
+plot_wer:
+	python3 -u src/mlg/plot_wer.py | tee plotwer.log

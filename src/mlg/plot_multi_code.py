@@ -80,7 +80,7 @@ for code, soft_df in soft_dfs.items():
 plt.figure()
 plt.title("WER - soft")
 for code, soft_df in soft_dfs.items():
-    soft_df.loc[soft_df['max_iter'] == 10]['WER'].plot(
+    soft_df['WER'].plot(
         logy=True, marker=markerstyle, markersize=markersize)
 plt.legend([key + "BCH" for key in soft_dfs.keys()])
 plt.xlabel('E_b / N_0 [dB]')
@@ -91,11 +91,35 @@ plt.grid(True, which='both',
 plt.figure()
 plt.title("WER - hard")
 for code, hard_df in hard_dfs.items():
-    hard_df.loc[hard_df['max_iter'] == 10]['WER'].plot(
-        logy=True, marker=markerstyle, markersize=markersize, linestyle="--")
+    hard_df['WER'].plot(
+        logy=True, marker=markerstyle, markersize=markersize)
 plt.legend([key + "BCH" for key in hard_dfs.keys()])
 plt.xlabel('E_b / N_0 [dB]')
 plt.ylabel('WER')
+plt.grid(True, which='both',
+         linestyle=grid_linestyle, linewidth=grid_linewidth)
+
+plt.figure()
+plt.title("TIME - soft")
+for code, soft_df in soft_dfs.items():
+    soft_df['elapsed_time'].plot(
+        marker=markerstyle, markersize=markersize)
+        # logy=True, marker=markerstyle, markersize=markersize)
+plt.legend([key + "BCH" for key in soft_dfs.keys()])
+plt.xlabel('E_b / N_0 [dB]')
+plt.ylabel('Simulation time')
+plt.grid(True, which='both',
+         linestyle=grid_linestyle, linewidth=grid_linewidth)
+
+plt.figure()
+plt.title("TIME - hard")
+for code, hard_df in hard_dfs.items():
+    hard_df['elapsed_time'].plot(
+        marker=markerstyle, markersize=markersize)
+        # logy=True, marker=markerstyle, markersize=markersize)
+plt.legend([key + "BCH" for key in hard_dfs.keys()])
+plt.xlabel('E_b / N_0 [dB]')
+plt.ylabel('Simulation time')
 plt.grid(True, which='both',
          linestyle=grid_linestyle, linewidth=grid_linewidth)
 

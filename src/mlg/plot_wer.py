@@ -82,4 +82,16 @@ plt.ylabel('WER')
 plt.grid(True, which='both',
          linestyle=grid_linestyle, linewidth=grid_linewidth)
 
+plt.figure()
+plt.title("TIME - hard vs soft")
+hard_elapsed = hard_df['elapsed_time'] * 1000.0 / hard_df["num_sim"].iloc[0]
+hard_elapsed.plot(marker=markerstyle, markersize=markersize)
+soft_elapsed = soft_df['elapsed_time'] * 1000.0 / soft_df["num_sim"].iloc[0]
+soft_elapsed.plot(marker=markerstyle, markersize=markersize)
+plt.legend(["hard", "soft"])
+plt.xlabel('E_b / N_0 [dB]')
+plt.ylabel('Simulation time per word [ms]')
+plt.grid(True, which='both',
+         linestyle=grid_linestyle, linewidth=grid_linewidth)
+
 plt.show()

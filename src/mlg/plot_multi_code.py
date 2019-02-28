@@ -56,27 +56,6 @@ for code, soft_df in soft_dfs.items():
     soft_df["rel_DV"] = soft_df["DV"].divide(
         soft_df["DV"] + soft_df["wrong"])
 
-# plt.figure()
-# plt.title("Distribution of Decoding results")
-# line1 = soft_df.DV.plot(
-#     marker=markerstyle, markersize=markersize, color="C0")
-# line2 = soft_df.wrong.plot(
-#     marker=markerstyle, markersize=markersize, color="C1")
-# line3 = soft_df.correct.plot(
-#     marker=markerstyle, markersize=markersize, color="C2")
-# line4 = hard_df.DV.plot(
-#     marker=markerstyle, markersize=markersize, linestyle="--")
-# line5 = hard_df.wrong.plot(
-#     marker=markerstyle, markersize=markersize, linestyle="--")
-# line6 = hard_df.correct.plot(
-#     marker=markerstyle, markersize=markersize, linestyle="--")
-# plt.xlabel('E_b / N_0 [dB]')
-# plt.legend(
-#     ("DV - soft", "wrong - soft", "correct - soft",
-#      "DV - hard", "wrong - hard", "correct - hard"))
-# plt.grid(True, which='both',
-#          linestyle=grid_linestyle, linewidth=grid_linewidth)
-
 plt.figure()
 plt.title("WER - soft")
 for code, soft_df in soft_dfs.items():
@@ -104,7 +83,6 @@ plt.title("TIME - soft")
 for code, soft_df in soft_dfs.items():
     soft_df['elapsed_time'].plot(
         marker=markerstyle, markersize=markersize)
-        # logy=True, marker=markerstyle, markersize=markersize)
 plt.legend([key + "BCH" for key in soft_dfs.keys()])
 plt.xlabel('E_b / N_0 [dB]')
 plt.ylabel('Simulation time')
@@ -116,7 +94,6 @@ plt.title("TIME - hard")
 for code, hard_df in hard_dfs.items():
     hard_df['elapsed_time'].plot(
         marker=markerstyle, markersize=markersize)
-        # logy=True, marker=markerstyle, markersize=markersize)
 plt.legend([key + "BCH" for key in hard_dfs.keys()])
 plt.xlabel('E_b / N_0 [dB]')
 plt.ylabel('Simulation time')

@@ -49,34 +49,28 @@ soft_df["rel_DV"] = soft_df["DV"].divide(
 
 plt.figure()
 plt.title("Distribution of Decoding results")
-line1 = soft_df.DV.plot(
-    marker=markerstyle, markersize=markersize, color="C0")
-line2 = soft_df.wrong.plot(
-    marker=markerstyle, markersize=markersize, color="C1")
-line3 = soft_df.correct.plot(
-    marker=markerstyle, markersize=markersize, color="C2")
-line4 = hard_df.DV.plot(
-    marker=markerstyle, markersize=markersize, linestyle="--")
-line5 = hard_df.wrong.plot(
-    marker=markerstyle, markersize=markersize, linestyle="--")
-line6 = hard_df.correct.plot(
-    marker=markerstyle, markersize=markersize, linestyle="--")
+hard_df.DV.plot(marker=markerstyle, markersize=markersize, linestyle="--")
+hard_df.wrong.plot(marker=markerstyle, markersize=markersize, linestyle="--")
+hard_df.correct.plot(marker=markerstyle, markersize=markersize, linestyle="--")
+soft_df.DV.plot(marker=markerstyle, markersize=markersize, color="C0")
+soft_df.wrong.plot(marker=markerstyle, markersize=markersize, color="C1")
+soft_df.correct.plot(marker=markerstyle, markersize=markersize, color="C2")
+
 plt.xlabel('E_b / N_0 [dB]')
 plt.legend(
-    ("DV - soft", "wrong - soft", "correct - soft",
-     "DV - hard", "wrong - hard", "correct - hard"))
+    ("DV - hard", "wrong - hard", "correct - hard",
+     "DV - soft", "wrong - soft", "correct - soft"))
 plt.grid(True, which='both',
          linestyle=grid_linestyle, linewidth=grid_linewidth)
 
 plt.figure()
 plt.title("WER - soft vs. hard")
-soft_df.loc[soft_df['max_iter'] == 10]['WER'].plot(
-    logy=True, marker=markerstyle, markersize=markersize,
-    color='C0')
 hard_df.loc[hard_df['max_iter'] == 10]['WER'].plot(
-    logy=True, marker=markerstyle, markersize=markersize,
-    color='C0', linestyle="--")
-plt.legend(("soft", "hard"))
+    logy=True, marker=markerstyle, markersize=markersize)
+soft_df.loc[soft_df['max_iter'] == 10]['WER'].plot(
+    logy=True, marker=markerstyle, markersize=markersize)
+
+plt.legend(("hard", "soft"))
 plt.xlabel('E_b / N_0 [dB]')
 plt.ylabel('WER')
 plt.grid(True, which='both',

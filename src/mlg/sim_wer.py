@@ -61,7 +61,7 @@ for bch in codes:
 
     max_iterations = [3, 4, 5, 8, 10, 15, 20, 100]
     max_iterations = [10]
-    num_sim = 1000
+    num_sim = 40000
     # annahme WER = 1 - (#correct / num_sim)
     print(bch.__dict__)
     for max_iter in max_iterations:
@@ -103,9 +103,13 @@ for bch in codes:
                      num_err, noises[sigma_counter], sigma, result,
                      needed_iter])
 
-            results[sigma]["WER"] = 1 - results[sigma]["correct"] / float(
+            results[sigma]["correct"] = results[sigma]["correct"] / float(
                 num_sim)
-            results[sigma]["correct_big_errors"] = num_special_err
+            results[sigma]["DV"] = results[sigma]["DV"] / float(num_sim)
+            results[sigma]["wrong"] = results[sigma]["wrong"] / float(num_sim)
+            results[sigma]["WER"] = 1 - results[sigma]["correct"]
+            results[sigma]["correct_big_errors"] = num_special_err / float(
+                num_sim)
             print(results[sigma])
             # DV, correct, wrong, WER, correct_big_errors
             cummulated_row = [v for k, v in results[sigma].items()]
@@ -116,8 +120,8 @@ for bch in codes:
             after = time.process_time()
             elapsed_time = after - before
             cummulated_row.insert(4, elapsed_time)
-            # max_iter, noise, sigma, num_sim, DV, correct, wrong, WER,
-            # correct_big_errors
+            # max_iter, noise, sigma, num_sim, elapsed_time, DV, correct,
+            # wrong, WER, correct_big_errors
             cummulated_by_sigma.append(cummulated_row)
 
             with open(filename_raw, 'a', newline='') as csvfile:

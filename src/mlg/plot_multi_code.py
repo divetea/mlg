@@ -81,22 +81,22 @@ plt.grid(True, which='both',
 plt.figure()
 plt.title("TIME - soft")
 for code, soft_df in soft_dfs.items():
-    soft_df['elapsed_time'].plot(
-        marker=markerstyle, markersize=markersize)
+    soft_elapsed = soft_df['elapsed_time'] * 1000.0 / soft_df["num_sim"].iloc[0]
+    soft_elapsed.plot(marker=markerstyle, markersize=markersize)
 plt.legend([key + "BCH" for key in soft_dfs.keys()])
 plt.xlabel('E_b / N_0 [dB]')
-plt.ylabel('Simulation time')
+plt.ylabel('Simulation time per word [ms]')
 plt.grid(True, which='both',
          linestyle=grid_linestyle, linewidth=grid_linewidth)
 
 plt.figure()
 plt.title("TIME - hard")
 for code, hard_df in hard_dfs.items():
-    hard_df['elapsed_time'].plot(
-        marker=markerstyle, markersize=markersize)
+    hard_elapsed = hard_df['elapsed_time'] * 1000.0 / hard_df["num_sim"].iloc[0]
+    hard_elapsed.plot(marker=markerstyle, markersize=markersize)
 plt.legend([key + "BCH" for key in hard_dfs.keys()])
 plt.xlabel('E_b / N_0 [dB]')
-plt.ylabel('Simulation time')
+plt.ylabel('Simulation time per word [ms]')
 plt.grid(True, which='both',
          linestyle=grid_linestyle, linewidth=grid_linewidth)
 
